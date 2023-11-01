@@ -46,4 +46,7 @@ public class Token implements Comparable<Token> {
     public String toString(){
         return this.word;
     }
+    public String format() {
+    	return this.word + " : " + this.count;
+    }
 }
