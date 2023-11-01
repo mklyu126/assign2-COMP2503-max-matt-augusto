@@ -55,10 +55,10 @@ public class A2 {
                 }
 
             }
-            int uniqueWordCount = countUniqueWords(tokenList);
+            SLL<Token> uniqueWords = getUniqueWords(tokenList);
 
             System.out.println("Total Words: " + wordCount);
-            System.out.println("Unique Words: " + uniqueWordCount);
+            System.out.println("Unique Words: " + uniqueWords.size());
             System.out.println("Stop Words: " + stopWordCount);
             System.out.println("\n");
             
@@ -79,9 +79,9 @@ public class A2 {
 
             // System.out.println("\n10 Least Frequent: ");
             // printTopCommonWords(tokenList);
-
+            SLL<Token> orderedTkList = orderTheList(tokenList);// use this list to make the most and least
             System.out.println("\n All: ");
-            printAllWords(tokenList);
+            printAllWords(orderedTkList);
 
             scanner.close();
         } catch (FileNotFoundException e) {
@@ -89,39 +89,54 @@ public class A2 {
         }
     }
 
-    public int countUniqueWords(SLL<Token> tokenList) {
+    public SLL<Token> getUniqueWords(SLL<Token> tokenList) {
         /**
          * Used to store unique words
          * Uses SLL.contains method to check if word is already in uniqueWords list
          * If it isn't, word is added to the list
          */
-        SLL<String> uniqueWords = new SLL<>();
+        SLL<Token> uniqueWords = new SLL<>();
 
         Node<Token> curr = tokenList.get(0);
         while (curr != null) {
             Token token = curr.getData();
-            String word = token.getWord();
+            
 
-            if (!uniqueWords.contains(word)) {
-                uniqueWords.addAt(0, word);
+            if (!uniqueWords.contains(token)) {
+                uniqueWords.addAt(0, token);
             }
 
             curr = curr.getNext();
         }
-        return uniqueWords.size();
+        return uniqueWords;
 
     }
 
-    private void printAllWords(SLL<Token> tokenList) {
+    private SLL<Token> orderTheList(SLL<Token> tokenList) {
         SLL<Token> orderedTkList = new SLL<Token>();
-    	for (int i = 0; i < tokenList.size(); i++) {
-            orderedTkList.addInOrder(tokenList.get(i).getData());   
+        SLL<Token> uniqueWords = getUniqueWords(tokenList);
+    	for (int i = 0; i < uniqueWords.size(); i++) {
+            orderedTkList.addInOrder(uniqueWords.get(i).getData());   
         }
     	for (int i = 0; i < orderedTkList.size(); i++) {
-    		System.out.println(orderedTkList.get(i).getData());//still need to give the count and stop de repetition on the print!!
+    		countRepetition(tokenList, orderedTkList.get(i).getData());
+    	}
+    	return orderedTkList;
+    }
+    
+    private void countRepetition(SLL<Token> tokenList,Token word){
+		for (int i = 0; i < tokenList.size(); i++) {
+			if(word.compareTo(tokenList.get(i).getData()) == 0) {
+				word.increaseCount();
+			}
+		}
+    }
+    
+    private void printAllWords(SLL<Token> orderedTkList) {
+    	for (int i = 0; i < orderedTkList.size(); i++) {
+    		System.out.println(orderedTkList.get(i).getData().format());
     	}
     }
-
     // private void printTopCommonWords(SLL<Token> tokenList){
     // /**
     // * Iterates from start of list until end
