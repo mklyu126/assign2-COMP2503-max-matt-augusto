@@ -1,11 +1,12 @@
 package mru;
 
 public class SLL<T extends Comparable<T>> {
-    private Node<T> start;
+    private Node<T> start, tail;
     int length;
 
     public SLL() {
         start = null;
+        tail = null;
         length = 0;
     }
 
@@ -14,65 +15,21 @@ public class SLL<T extends Comparable<T>> {
     }
 
     public void addToEnd(T data) {
-        Node<T> nodeToAdd = new Node<>(data);
-        if (start != null) {
-            Node<T> curr = start;
-            while (curr.getNext() != null) {
-                curr = curr.getNext();
-            }
-            curr.setNext(nodeToAdd);
-        } else
-            start = nodeToAdd;
-        length++;
+        addToEnd(new Node<T>(data));
     }
 
     public void addToStart(T data) {
-        Node<T> nodeToAdd = new Node<>(data);
-        if (isEmpty())
-            start = nodeToAdd;
-        else {
-            nodeToAdd.setNext(start);
-            start = nodeToAdd;
-        }
-        length++;
+        addToStart(new Node<T> (data));
     }
 
     public void addAt(int index, T data) {
-        if (length == 0 || index <= 0) {
-            addToStart(data);
-        } else if (length <= index) {
-            addToEnd(data);
-        } else {
-            Node<T> nodeToAdd = new Node<>(data);
-            Node<T> curr = start;
-            for (int count = 0; count < index - 1; count++) {
-                curr = curr.getNext();
-            }
-            nodeToAdd.setNext(curr.getNext());
-            curr.setNext(nodeToAdd);
-            length++;
-        }
+    	addAt(index, new Node<T> (data));
     }
 
     public void addInOrder(T data) {
-        Node<T> nodeToAdd = new Node<>(data);
-        nodeToAdd.setData(data);
-
-        if (isEmpty() || data.compareTo(start.getData()) <= 0) { // if list is empty or passed in data is less than or
-                                                                 // equal to the start node data
-
-            nodeToAdd.setNext(start);
-            start = nodeToAdd;
-        } else {
-            Node<T> curr = start;
-            while (curr.getNext() != null && data.compareTo(curr.getNext().getData()) > 0) {
-                curr = curr.getNext();
-            }
-            nodeToAdd.setNext(curr.getNext());
-            curr.setNext(nodeToAdd);
-        }
+    	addInOrder(new Node<T> (data));
     }
-
+    
     public Node<T> get(int index) {
         Node<T> curr = start;
 
@@ -125,6 +82,74 @@ public class SLL<T extends Comparable<T>> {
 
         else {
             System.out.print("[" + curr.getData() + "]");
+        }
+    }
+    
+    private void addToEnd(Node<T> n) {
+    	if(tail == null) {
+    		start = n;
+    		tail = n;
+    	} else {
+    		tail.setNext(n);
+    		tail = n;
+    	}
+    	length ++;
+    }
+    
+    private void addToStart(Node<T> n) {
+    	if(start == null) {
+    		start = n;
+    		tail = n;
+    	}else {
+    		n.setNext(start);
+    		start = n;
+    	}
+    	length ++;
+    }
+    
+    private void addAt(int index, Node<T> n) {
+    	if (length == 0 || index <= 0) {
+            addToStart(n);
+        } else if (length <= index) {
+            addToEnd(n);
+        } else {
+            Node<T> curr = start;
+            for (int count = 0; count < index - 1; count++) {
+                curr = curr.getNext();
+            }
+            n.setNext(curr.getNext());
+            curr.setNext(n);
+            length++;
+        }
+    }
+    
+    private void addInOrder(Node<T> n) {
+        if (isEmpty()) {
+            this.addToStart(n);
+            return;
+        }
+        if (n.getData().compareTo(start.getData()) <= 0) {
+            // N is ordered before the head
+            this.addToStart(n);
+            return;
+        }
+        else if (n.getData().compareTo(tail.getData()) >= 0){
+            // N is ordered after the tail
+            this.addToEnd(n);
+        }
+        else {// We need to walk the list
+            Node<T> current = start;
+            Node<T> nextNode = current.getNext();
+                while (nextNode != null) {
+                    if(n.getData().compareTo(current.getData()) >= 0 && n.getData().compareTo(nextNode.getData()) <= 0) {
+                        current.setNext(n);
+                        n.setNext(nextNode);
+                        return;
+                    }
+                    current = nextNode;
+                    nextNode = nextNode.getNext();
+                    length++;
+            }
         }
     }
 }

@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 public class A2 {
 
-    private final String FILE_PATH = "assignment2/res/input.txt"; // Change if file name changes
+    private final String FILE_PATH = "res/input3.txt"; // Change if file name changes
 
     List<String> stopWordList = new ArrayList<>(List.of(
             "a", "about", "all", "am", "an", "and", "any", "are", "as", "at", "be",
@@ -22,9 +22,9 @@ public class A2 {
             "what", "with", "when", "where", "which", "while", "who", "whom", "why", "will",
             "you", "your"));
 
-    public A2() {
-        readFile();
-    }
+    //public A2() {//no need for this once you can call the method in the main
+    //    readFile();
+    //}
 
     private void readFile() {
         /**
@@ -59,9 +59,12 @@ public class A2 {
 
             System.out.println("Total Words: " + wordCount);
             System.out.println("Unique Words: " + uniqueWordCount);
-            tokenList.print();
-            // System.out.println("Stop Words: " + stopWordCount);
+            System.out.println("Stop Words: " + stopWordCount);
             System.out.println("\n");
+            
+            //tokenList.print();
+            
+            
 
             // updateTokenFrequencies(tokenList); //Finds token frequencies in list
 
@@ -110,9 +113,13 @@ public class A2 {
     }
 
     private void printAllWords(SLL<Token> tokenList) {
-        for (int i = 0; i < tokenList.size(); i++) {
-            System.out.println(tokenList.get(i).getData());
+        SLL<Token> orderedTkList = new SLL<Token>();
+    	for (int i = 0; i < tokenList.size(); i++) {
+            orderedTkList.addInOrder(tokenList.get(i).getData());   
         }
+    	for (int i = 0; i < orderedTkList.size(); i++) {
+    		System.out.println(orderedTkList.get(i).getData());//still need to give the count and stop de repetition on the print!!
+    	}
     }
 
     // private void printTopCommonWords(SLL<Token> tokenList){
@@ -149,6 +156,6 @@ public class A2 {
     // }
     public static void main(String[] args) throws Exception {
         A2 a2 = new A2();
-
+        a2.readFile();
     }
 }
