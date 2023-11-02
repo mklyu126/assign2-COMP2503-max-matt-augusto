@@ -1,0 +1,42 @@
+Total Words: 31
+Unique Words: 13
+Stop Words: 14
+
+10 Most Frequent
+heres : 3
+dream : 2
+fools : 2
+ache : 1
+audition : 1
+crazy : 1
+hearts : 1
+lalaland : 1
+make : 1
+may : 1
+
+10 Least Frequent
+ache : 1
+audition : 1
+crazy : 1
+hearts : 1
+lalaland : 1
+make : 1
+may : 1
+mess : 1
+movie : 1
+dream : 2
+
+All
+ache : 1
+audition : 1
+crazy : 1
+dream : 2
+fools : 2
+hearts : 1
+heres : 3
+lalaland : 1
+make : 1
+may : 1
+mess : 1
+movie : 1
+seem : 1
