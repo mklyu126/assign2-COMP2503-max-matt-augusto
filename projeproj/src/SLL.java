@@ -106,24 +106,7 @@ public class SLL<T extends Comparable<T>> {
         return length;
     }
 
-    public void print() {
-        Node<T> curr = start;
-
-        System.out.println("Start->");
-
-        for (int count = 0; count < length; count++) {
-            System.out.println("[" + curr.getData() + "]->");
-            curr = curr.getNext();
-        }
-
-        if (curr == null) {
-            System.out.println("null");
-        }
-
-        else {
-            System.out.print("[" + curr.getData() + "]");
-        }
-    }
+    
     
     /**
      * Adds the word to the end of the list,
