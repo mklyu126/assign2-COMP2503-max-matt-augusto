@@ -7,9 +7,15 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * Comp  2503 Assigment 2 main class of the project that start
+ * the calls and organize the order of the methods being called
+ * @author Augusto De Morais Silva, Matthew Do, and Maxim Klyukanov
+ *
+ */
 public class A2 {
 
-    private final String FILE_PATH = "res/input2.txt"; // Change if file name changes
+    private final String FILE_PATH = "res/input3.txt"; // Change if file name changes
 
     List<String> stopWordList = new ArrayList<>(List.of(
             "a", "about", "all", "am", "an", "and", "any", "are", "as", "at", "be",
@@ -32,15 +38,16 @@ public class A2 {
     
     int wordCount = 0;
     int stopWordCount = 0;
-
+    
+    /**
+     * Reads file from txt word by word
+     * Trims word of trailing and leading blanks, converts it to lowercase, and
+     * removes any punctuation/digits
+     * If word is not in stopWordList, add it to tokenList
+     * Then print the information in the console
+     */
     private void readFile() {
-        /**
-         * Reads file from txt word by word
-         * Trims word of trailing and leading blanks, converts it to lowercase, and
-         * removes any punctuation/digits
-         * If word is not in stopWordList, add it to tokenList
-         * 
-         */
+        
         try {
             Scanner scanner = new Scanner(new File(FILE_PATH));
             
@@ -63,41 +70,43 @@ public class A2 {
             }
             uniqueWords = getUniqueWords(tokenList);
 
-//            System.out.println("Total Words: " + wordCount);
-//            System.out.println("Unique Words: " + uniqueWords.size());
-//            System.out.println("Stop Words: " + stopWordCount);
-//            System.out.println("\n");
-//            
-//            
-            SLL<Token> orderedTkList = orderTheList(tokenList);// use this list to make the most and least
-//            System.out.println("All: ");
-//            printAllWords();
-//
-//            
+            System.out.println("Total Words: " + wordCount);
+            System.out.println("Unique Words: " + uniqueWords.size());
+            System.out.println("Stop Words: " + stopWordCount);
+                        
+            
+            orderedTkList = orderTheList(tokenList);// use this list to make the most and least
+                        
             orderLeastFreq();
             orderMostFreq();
-//            
-//            System.out.println();
-//            System.out.println("Least frequent");
-//            printLeastFreq();
-//            
-//            System.out.println();
-//            System.out.println("Most frequent");
-//            printMostFreq();
-//            
+            
+            System.out.println();
+            System.out.println("Most frequent");
+            printMostFreq();
+            
+            System.out.println();
+            System.out.println("Least frequent");
+            printLeastFreq();
+                      
+            System.out.println();
+            System.out.println("All: ");
+            printAllWords();
             
             scanner.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
     }
-
+    
+    /**
+     * Used to store unique words
+     * Uses SLL.contains method to check if word is already in uniqueWords list
+     * If it isn't, word is added to the list 
+     * @param tokenList The list of token objects (words + count)
+     * @return uniqueWords One list with just unique words (no repetition)
+     */
     public SLL<Token> getUniqueWords(SLL<Token> tokenList) {
-        /**
-         * Used to store unique words
-         * Uses SLL.contains method to check if word is already in uniqueWords list
-         * If it isn't, word is added to the list
-         */
+        
         SLL<Token> uniqueWords = new SLL<>();
 
         Node<Token> curr = tokenList.get(0);
@@ -113,9 +122,14 @@ public class A2 {
         }
         return uniqueWords;
     }
-
+    
+    /**
+     * Order the list in alphabetical order using addInOrder method from SLL class
+     * @param tokenList The list of token objects (words + count)
+     * @return orderedTkList The list with the elements in alphabetical order
+     */
     private SLL<Token> orderTheList(SLL<Token> tokenList) {
-        
+       
         SLL<Token> uniqueWords = getUniqueWords(tokenList);
     	for (int i = 0; i < uniqueWords.size(); i++) {
             orderedTkList.addInOrder(uniqueWords.get(i).getData());   
@@ -126,7 +140,14 @@ public class A2 {
     	return orderedTkList;
     }
     
+    /**
+     *Count how many times the word repeats in the list
+     * each time it update the count from token class 
+     * @param tokenList The list of token objects (words + count
+     * @param word One of the words in the tokenList
+     */
     private void countRepetition(SLL<Token> tokenList,Token word){
+    	
 		for (int i = 0; i < tokenList.size(); i++) {
 			if(word.compareTo(tokenList.get(i).getData()) == 0) {
 				word.increaseCount();
@@ -134,39 +155,71 @@ public class A2 {
 		}
     }
     
+    /**
+     * Order the list by frequency, from the most to the least frequent
+     */
     public void orderMostFreq(){
-    	for(int i = 0; i < orderedTkList.size() -1 ; i++) {
+   
+    	for(int i = 0; i < orderedTkList.size(); i++) {
     		mostFrequent.addInOrder(orderedTkList.get(i).getData());
     	}
     }
+    
+    /**
+     * Order the list by frequency, from the least to the most frequent
+     */
     public void orderLeastFreq() {
-    	for (int i = 0; i < orderedTkList.size() -1 ; i++) {
+    	
+    	for (int i = 0; i < orderedTkList.size(); i++) {
     		leastFrequent.addInOrder(orderedTkList.get(i).getData());
     	}
     }
     
+    /**
+     * Print in the console the list of the most frequent word
+     * but it just print until the 10th word
+     */
     public void printMostFreq() {
-    	
-    	for(int i = 0; i < 10; i++) {
+    	int num;
+    	if(mostFrequent.size() > 10) {num = 10;}	
+    	else {num = mostFrequent.size();}
+    		
+    	for(int i = 0; i < num; i++) {
     		System.out.println(mostFrequent.get(i).getData().format());
     	}
     	
     }
     
+    /**
+     *Print in the console the list of the least frequent word
+     * but it just print until the 10th word
+     */
     public void printLeastFreq() {
-    	for(int i = 0; i < 10; i++) {
+    	int num;
+    	if(leastFrequent.size() > 10) {num = 10;}	
+    	else {num = leastFrequent.size();}
+    	
+    	for(int i = 0; i < num; i++) {
     		System.out.println(leastFrequent.get(i).getData().format());
     	}
     }
     
+    /**
+     * Print all words in the console followed by its own count (frequency)
+     */
     private void printAllWords() {
+    	
     	for (int i = 0; i < orderedTkList.size(); i++) {
     		System.out.println(orderedTkList.get(i).getData().format());
     	}
     }
     
-public void saveData() {
-		
+    /**
+     * Saves the lists of words to an external text file called output.txt
+     * the output file has the correct format and ordering 
+     */
+    public void saveData() {
+    			
 		try {
 			
 			PrintWriter outputFile = new PrintWriter("res/output.txt");
@@ -204,14 +257,15 @@ public void saveData() {
 
 			outputFile.close();
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
        
 	}
     
-    
+    /**
+     * Main method that initiates the program
+     */
     public static void main(String[] args) throws Exception {
         A2 a2 = new A2();
         a2.readFile();

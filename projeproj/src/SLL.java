@@ -1,11 +1,18 @@
 import java.util.Comparator;
 
+/**
+ * Single Linked List class that build all methods for the 
+ * creation of a sll.
+ * @param <T> generic type of data
+ */
 public class SLL<T extends Comparable<T>> {
     private Node<T> start, tail;
     int length;
     Comparator<T> comp;
     
-
+    /**
+     * Constructor
+     */
     public SLL() {
         start = null;
         tail = null;
@@ -14,11 +21,20 @@ public class SLL<T extends Comparable<T>> {
         
     }
     
+    /**
+     * Copy constructor used to receive the external 
+     * comparator classes
+     * @param comp the type of comparator
+     */
     public SLL(Comparator<T> comp) {
     	this();
     	this.comp = comp;
     }
-
+    
+    /**
+     * Check if the list is empty
+     * @return true or false based on the start value
+     */
     public boolean isEmpty() {
         return (start == null);
     }
@@ -39,6 +55,11 @@ public class SLL<T extends Comparable<T>> {
     	addInOrder(new Node<T> (data));
     }
     
+    /**
+     * Loop through the list to get the element required by the index
+     * @param index position of the required element
+     * @return curr the node/data located in the passed index
+     */
     public Node<T> get(int index) {
         Node<T> curr = start;
 
@@ -51,8 +72,13 @@ public class SLL<T extends Comparable<T>> {
         return curr;
 
     }
-
+    /**
+     * Checks if the element is present in the list.
+     * @param data passed by the method call.
+     * @return true or false for the presence or absence of the element.
+     */
     public boolean contains(T data) {
+   
         Node<T> curr = start;
         while (curr != null) {
             if (curr.getData().equals(data)) {
@@ -63,7 +89,12 @@ public class SLL<T extends Comparable<T>> {
         return false; // if element is not found in list
     }
 
+    /**
+     * Counts how many elements the list has.
+     * @return size the number of elements present in the list.
+     */
     public int size() {
+    
         Node<T> curr = start;
         int length = 0;
 
@@ -94,6 +125,12 @@ public class SLL<T extends Comparable<T>> {
         }
     }
     
+    /**
+     * Adds the word to the end of the list,
+	 * if the list is empty the word will be added
+	 * to the start of the list
+     * @param n the node that the data is stored
+     */
     private void addToEnd(Node<T> n) {
     	if(tail == null) {
     		start = n;
@@ -105,7 +142,12 @@ public class SLL<T extends Comparable<T>> {
     	length ++;
     }
     
+    /**
+     * Adds the word to the start of the list.
+     * @param n the node that the data is stored
+     */
     private void addToStart(Node<T> n) {
+    	
     	if(start == null) {
     		start = n;
     		tail = n;
@@ -116,7 +158,14 @@ public class SLL<T extends Comparable<T>> {
     	length ++;
     }
     
+    /**
+     * Adds the word in the specific index passed by the 
+     * method call
+     * @param index position of the required element
+     * @param n the node that the data is stored
+     */
     private void addAt(int index, Node<T> n) {
+    	
     	if (length == 0 || index <= 0) {
             addToStart(n);
         } else if (length <= index) {
@@ -132,7 +181,14 @@ public class SLL<T extends Comparable<T>> {
         }
     }
     
+    /**
+     *  Adds the word in order that its needed
+     * the method can order in alphabetical order or 
+     * using external comparator classes
+     * @param n the node that the data is stored
+     */
     private void addInOrder(Node<T> n) {
+    	
         if (isEmpty()) {
             this.addToStart(n);
             return;

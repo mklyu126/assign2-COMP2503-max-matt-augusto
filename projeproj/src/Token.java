@@ -1,9 +1,17 @@
 
 
+/**
+ * Token class that contains the directions on how a token
+ * should look like (word with the frequency count)
+ */
 public class Token implements Comparable<Token> {
     private String word;
     private int count;
-
+    
+    /**
+     * Constructor
+     * @param word a string that forms a word
+     */
     public Token(String word){ 
         this.word = word;
         this.count = 0;
@@ -15,7 +23,11 @@ public class Token implements Comparable<Token> {
     public int getCount(){
         return count;
     }
-
+    
+    /**
+     * Increases the count attribute to show the frequency
+     * of the word 
+     */
     public void increaseCount(){
         count++;
     }
@@ -46,6 +58,7 @@ public class Token implements Comparable<Token> {
     public String toString(){
         return this.word;
     }
+    
     public String format() {
     	return this.word + " : " + this.count;
     }

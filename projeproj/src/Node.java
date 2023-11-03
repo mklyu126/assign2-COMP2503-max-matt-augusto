@@ -1,4 +1,8 @@
-
+/**
+ * Node class that contains the directions of how a node
+ * should look like.
+ * @param <T> Generic type of data
+ */
 public class Node<T extends Comparable<T>> {
     private T data;
     private Node<T> next;

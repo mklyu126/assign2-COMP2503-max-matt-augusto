@@ -1,6 +1,10 @@
 
 import java.util.Comparator;
 
+/**
+ * Class that implements comparator to organize the words in 
+ * a ascending count order
+ */
 public class MostFrequentWordComparator implements Comparator<Token>{
     @Override
     public int compare(Token t1, Token t2){
